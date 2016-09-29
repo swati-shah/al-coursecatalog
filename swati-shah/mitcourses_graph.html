@@ -2,7 +2,7 @@
 <html>
 <script src="http://d3js.org/d3.v3.min.js"></script>
 <script src="d3.tip.js"></script>
-<script src="mitcourses_data.js"></script>
+<script src="mitcourses.js"></script>
 <script src="mitcourses_graph.js"></script>
 <link rel="stylesheet" href="styles-example.css">
 <body>
@@ -10,9 +10,40 @@
 </body>
 <script>
 
-// ---------------------
-//      YOUR CODE
-// ---------------------
+document.getElementById('target').innerHTML=mitcourses;  // This variable comes from mitcourses.js 
+var list= document.getElementsByTagName('h3');
+
+//create array from nodelist
+
+list=Array.prototype.slice.call(list);
+
+// get the titles
+var titles = list.map(function(node) {
+	return node.innerText;
+} );
+
+//filter titles
+var words=titles.map(function(node){
+	return node.toLowerCase().match(/([a-z]+)/g);
+});
+
+//flatten
+
+var wordsFlat=words.reduce(function(previous,current){
+	return previous.concat(current);
+});
+
+var scores=wordsFlat.reduce(function(previous,current){
+	if (current in previous) {
+		previous[current]+=1;
+	}
+	else {
+		previous[current]=1;
+	}
+	return previous;
+}, {});
+
+graph();
 
 </script>
 
